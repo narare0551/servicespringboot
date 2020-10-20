@@ -1,30 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%@ include file="layout/header.jsp"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>게시글 목록</h1>
+<main>
+	<h1>BoardList</h1>
 	<hr />
 	<table border="1">
 		<tr>
-				<td>ID</td>
-				<td>TITLE</td>
-				<td>CONTENT</td>
-				<td>READCOUNT</td>
-				<td>CREATEDATE</td>
-			</tr>
-		<c:forEach var="board" items="${boards}">
-
+			<td>ID</td>
+			<td>TITLE</td>
+			<td>CONTENT</td>
+			<td>READCOUNT</td>
+			<td>CREATEDATE</td>
+		</tr>
+		<c:forEach var="board" items="${boards.content}">
 			<tr>
 				<td>${board.id}</td>
-				<td>${board.title}</td>
+				<td><a href="/board/${board.id}">${board.title}</a></td>
 				<td>${board.content}</td>
 				<td>${board.readCount}</td>
 				<td>${board.createDate}</td>
@@ -32,5 +25,37 @@
 		</c:forEach>
 	</table>
 
-</body>
-</html>
+
+	<ul class="pagination">
+	    <c:choose>
+	    	<c:when test="${boards.first}">
+	    		<li class="page-item disabled">
+					<a class="page-link" href="/list?page=${boards.pageable.pageNumber-1}">Previous</a>
+				</li>
+	    	</c:when>
+	    	<c:otherwise>
+	    		<li class="page-item">
+					<a class="page-link" href="/list?page=${boards.pageable.pageNumber-1}">Previous</a>
+				</li>
+	    	</c:otherwise>
+	    </c:choose>
+
+
+		<c:choose>
+	    	<c:when test="${boards.last}">
+	    		<li class="page-item disabled">
+					<a class="page-link" href="/list?page=${boards.pageable.pageNumber+1}">Next</a>
+				</li>
+	    	</c:when>
+	    	<c:otherwise>
+	    		<li class="page-item">
+					<a class="page-link" href="/list?page=${boards.pageable.pageNumber+1}">Next</a>
+				</li>
+	    	</c:otherwise>
+	    </c:choose>
+	</ul>
+
+</main>
+
+<%@ include file="layout/footer.jsp"%>
+
